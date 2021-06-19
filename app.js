@@ -25,6 +25,8 @@ app.set("views", "views");
 // app.set("views", "views");
 
 app.use(express.urlencoded({ extended: false}));
+
+// "/admin" starts every admin routes ---- Check admin.js in routes folder
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 app.use(express.static(path.join(__dirname, "public")));
