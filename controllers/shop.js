@@ -5,38 +5,43 @@ exports.getProducts = (req, res, next) => {
   // console.log(adminData.products);
   // res.sendFile(path.join(rootDurectory, "views", "shop.html"));
 
-  Product.fetchProducts(products => {
-
+  Product.fetchProducts().then(([rows, fieldData]) => {
     res.render("shop/product-list", {
-      products: products,
+      products: rows,
       pageTitle: "Products",
       path: "/products",
     });
-  });
-  
+  }).catch(err => {
+    console.log(err);
+  })  
 };
 
 exports.getProduct = (req, res, next) => {
   const productId = req.params.productId;
-  Product.fetchProductById(productId, product => {
+  Product.fetchProductById(productId).then(([product]) => {
     res.render("shop/product-detail", {
-      product: product,
+      product: product[0],
       path: "/products",
       pageTitle: product.title
     })
-  })
+  }).catch(err => {
+    console.log(err);
+  });
 };
 
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchProducts((products) => {
-    
+  Product.fetchProducts().then(([rows, fieldData]) =>{
+
     res.render("shop/index", {
-      products: products,
+      products: rows,
       pageTitle: "Shop",
       path: "/",
     });
-  });
+  }).then(err => {
+    console.log(err);
+  })
+    
 };
 
 
